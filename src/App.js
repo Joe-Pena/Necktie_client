@@ -47,6 +47,11 @@ class App extends React.Component {
 
   projectFormSubmit(e) {
     e.preventDefault()
+
+    if(!this.state.projectField) {
+      return alert('Field cannot be left blank')
+    }
+
     this.setState({
       projects: [...this.state.projects, {
         name: this.state.projectField,
@@ -59,6 +64,11 @@ class App extends React.Component {
 
   todoFormSubmit(e, projectIndex) {
     e.preventDefault()
+    
+    if(!this.state.todoField) {
+      return alert('Field cannot be left blank')
+    }
+
     let projects = [...this.state.projects]
     let project = projects[projectIndex]
     project.todos = [...project.todos, {
@@ -66,36 +76,55 @@ class App extends React.Component {
       done: false
     }]
     this.setState({
-      projects
+      projects,
+      todoField: ''
     })
-    console.log('todo submitted', this.state.todoField)
-    console.log('newSrare', this.state.projects)
-    
   }
 
   toggleProjectDone(e, projectIndex) {
-    console.log('toggling to:', e.target.checked)
     let projects = [...this.state.projects]
     let project = projects[projectIndex]
     project.done = e.target.checked
     this.setState({
       projects: [...projects]
     })
-    console.log('after setstate', this.state.projects)
   }
 
   toggleTodoDone(e, projectIndex, todoIndex) {
-    console.log('index', todoIndex)
-    console.log('project', projectIndex)
-    console.log('toggling todo to:', e.target.checked)
     let projects = [...this.state.projects]
     let project = projects[projectIndex]
     let todo = project.todos[todoIndex]
     todo.done = e.target.checked
     this.setState({
-      projects: [...projects]
+      projects: [...projects],
     })
-    console.log('after todo update', this.state.projects)
+  }
+
+  removeProject(projectIndex) {
+    console.log('removing project at:', projectIndex)
+    let projects = [...this.state.projects]
+    projects.splice(projectIndex, 1)
+    this.setState({
+      projects
+    })
+  }
+
+  removeTodo(projectIndex, todoIndex) {
+    console.log('removing todo #', todoIndex)
+    let projects = [...this.state.projects]
+    let project = projects[projectIndex]
+    project.todos.splice(todoIndex, 1)
+    this.setState({
+      projects
+    })
+  }
+
+  editProject(projectIndex) {
+    console.log('editing project', projectIndex)
+  }
+
+  editTodo(projectIndex, todoIndex) {
+    console.log('editing project', projectIndex, 'todo', todoIndex)
   }
 
   render() {
@@ -112,12 +141,14 @@ class App extends React.Component {
         {/* HOMEPAGE */}
         <section className="home-page">
 
+          <h1>Current Necktie projects</h1>
+
           {/* PROJECT SUBMIT FORM */}
           <form 
             className="home-page_project-submit-form"
             onSubmit={(e) => this.projectFormSubmit(e)}
           >
-            <input 
+            <input
               type="text" 
               placeholder="Add a Project"
               onChange= {e => this.setState({projectField: e.target.value})}
@@ -142,10 +173,27 @@ class App extends React.Component {
                     <input 
                       type="text" 
                       onChange={(e) => this.setState({todoField: e.target.value})} 
+                      placeholder="Add a new todo"
                       // value={this.state.todoField}
                     />
                     <button type="submit">Add Todo</button>
                   </form>
+
+                  {/* EDIT PROJECT */}
+                  <button 
+                    className="projects-list-entry_edit-btn"
+                    onClick={() => this.editProject(projectIndex)}
+                  >
+                    Edit Project
+                  </button>
+
+                  {/* DELETE BUTTON */}
+                  <button 
+                    className="projects-list-entry_delete-btn"
+                    onClick={() => this.removeProject(projectIndex)}
+                  >
+                    Remove Project
+                  </button>
 
                   {/* TODO LIST */}
                   <ul>
@@ -154,6 +202,20 @@ class App extends React.Component {
                         <li key={todoIndex}>
                           <input type="checkbox" onChange={(e) => this.toggleTodoDone(e, projectIndex, todoIndex)}/>
                           {todo.name}
+
+                          {/* EDIT TODO */}
+                          <button
+                            onClick={() => this.editTodo(projectIndex, todoIndex)}
+                          >
+                            Edit Todo
+                          </button>
+
+                          {/* REMOVE TODO */}
+                          <button
+                            onClick={() => this.removeTodo(projectIndex, todoIndex)}
+                          >
+                            Remove todo
+                          </button>
                         </li>
                       )
                     })}
