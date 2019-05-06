@@ -7,6 +7,7 @@ class App extends React.Component {
 
     this.state = {
       projectField: '',
+      todoField: '',
       projects: [
         {
           name: 'Awesome Project',
@@ -14,7 +15,7 @@ class App extends React.Component {
           todos: [
             {
               name: 'Start the project',
-              done: true
+              done: false
             },
             {
               name: 'Make it pretty',
@@ -24,19 +25,19 @@ class App extends React.Component {
         },
         {
           name: 'Second Project',
-          done: true,
+          done: false,
           todos: [
             {
               name: 'Start the project',
-              done: true
+              done: false
             },
             {
               name: 'Make it pretty',
-              done: true
+              done: false
             },
             {
               name: 'Add more candies',
-              done: true
+              done: false
             }
           ]
         }
@@ -46,17 +47,36 @@ class App extends React.Component {
 
   projectFormSubmit(e) {
     e.preventDefault()
-    this.setState({projects: [...this.state.projects, {
-      name: this.state.projectField,
-      done: false,
-      todos: []
-    }]})
+    this.setState({
+      projects: [...this.state.projects, {
+        name: this.state.projectField,
+        done: false,
+        todos: []
+      }],
+      projectField: ''
+    })
   }
 
-  toggleProjectDone(e, index) {
+  todoFormSubmit(e, projectIndex) {
+    e.preventDefault()
+    let projects = [...this.state.projects]
+    let project = projects[projectIndex]
+    project.todos = [...project.todos, {
+      name: this.state.todoField,
+      done: false
+    }]
+    this.setState({
+      projects
+    })
+    console.log('todo submitted', this.state.todoField)
+    console.log('newSrare', this.state.projects)
+    
+  }
+
+  toggleProjectDone(e, projectIndex) {
     console.log('toggling to:', e.target.checked)
-    let projects = [... this.state.projects]
-    let project = projects[index]
+    let projects = [...this.state.projects]
+    let project = projects[projectIndex]
     project.done = e.target.checked
     this.setState({
       projects: [...projects]
@@ -64,18 +84,38 @@ class App extends React.Component {
     console.log('after setstate', this.state.projects)
   }
 
+  toggleTodoDone(e, projectIndex, todoIndex) {
+    console.log('index', todoIndex)
+    console.log('project', projectIndex)
+    console.log('toggling todo to:', e.target.checked)
+    let projects = [...this.state.projects]
+    let project = projects[projectIndex]
+    let todo = project.todos[todoIndex]
+    todo.done = e.target.checked
+    this.setState({
+      projects: [...projects]
+    })
+    console.log('after todo update', this.state.projects)
+  }
+
   render() {
     return (
       <div className="App">
+
+        {/* HEADER */}
         <header className="Navbar">
           <span>Logo</span>
           <span>Login</span>
           <span>Signup</span>
         </header>
+
+        {/* HOMEPAGE */}
         <section className="home-page">
+
+          {/* PROJECT SUBMIT FORM */}
           <form 
             className="home-page_project-submit-form"
-            onSubmit={this.projectFormSubmit}
+            onSubmit={(e) => this.projectFormSubmit(e)}
           >
             <input 
               type="text" 
@@ -85,17 +125,34 @@ class App extends React.Component {
             />
             <button type="submit">Add Project</button>
           </form>
+
+          {/* PROJECTLIST */}
           <div className="projects-list">
-            {this.state.projects.map((project, index) => {
+            {this.state.projects.map((project, projectIndex) => {
               return (
-                <div className="projects-list-entry" key={index}>
+                <div className="projects-list_entry" key={projectIndex}>
                   <h2>{project.name}</h2>
-                  <input type="checkbox" onChange={(e) => this.toggleProjectDone(e, index)}/>
+                  <input type="checkbox" onChange={(e) => this.toggleProjectDone(e, projectIndex)}/>
+
+                  {/* TODO SUBMIT FORM */}
+                  <form 
+                    className="projects-list_entry_todo-form"
+                    onSubmit={(e) => this.todoFormSubmit(e, projectIndex)}
+                  >
+                    <input 
+                      type="text" 
+                      onChange={(e) => this.setState({todoField: e.target.value})} 
+                      // value={this.state.todoField}
+                    />
+                    <button type="submit">Add Todo</button>
+                  </form>
+
+                  {/* TODO LIST */}
                   <ul>
-                    {project.todos.map((todo, index) => {
+                    {project.todos.map((todo, todoIndex) => {
                       return (
-                        <li key={index}>
-                          <input type="checkbox" onChange={this.toggleProjectDone}/>
+                        <li key={todoIndex}>
+                          <input type="checkbox" onChange={(e) => this.toggleTodoDone(e, projectIndex, todoIndex)}/>
                           {todo.name}
                         </li>
                       )
