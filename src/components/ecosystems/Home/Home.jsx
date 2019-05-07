@@ -7,6 +7,11 @@ class Home extends React.Component {
     this.state = {
       projectField: '',
       todoField: '',
+      editField: '',
+      editActive: {
+        project: null,
+        todo: null
+      },
       projects: [
         {
           name: 'Awesome Project',
@@ -126,6 +131,59 @@ class Home extends React.Component {
     console.log('editing project', projectIndex, 'todo', todoIndex)
   }
 
+  activateEdit(e, projectIndex, todoIndex) {
+    e.preventDefault()
+
+    if(todoIndex === null) {
+      console.log('changing active project', projectIndex)
+      this.setState({
+        editActive: {
+          project: projectIndex,
+          todo: null
+        }
+      })
+    } else {
+      console.log('changing active todo', todoIndex, 'Project', projectIndex)
+      this.setState({
+        editActive: {
+          project: projectIndex,
+          todo: todoIndex
+        }
+      })
+    }
+  }
+
+  editSelection(e, projectIndex, todoIndex) {
+    e.preventDefault();
+    let projects = [...this.state.projects]
+    let project = projects[projectIndex]
+
+
+    if(todoIndex === null) {
+      console.log('changin name of p', projectIndex, 'to', this.state.editField)
+      project.name = this.state.editField 
+      this.setState({
+        projects,
+        editField: '',
+        editActive: {
+          project: null,
+          todo: null
+        }
+      })
+    } else {
+      console.log('changin name of todo', projectIndex, '-', todoIndex, 'to', this.state.editField)
+      project.todos[todoIndex].name = this.state.editField
+      this.setState({
+        projects,
+        editField: '',
+        editActive: {
+          project: null,
+          todo: null
+        }
+      })
+    }
+  }
+
   render() {
     return (
       <main className="home-page">
@@ -169,12 +227,29 @@ class Home extends React.Component {
                 </form>
 
                 {/* EDIT PROJECT */}
-                <button 
-                  className="projects-list-entry_edit-btn"
-                  onClick={() => this.editProject(projectIndex)}
+                <form 
+                  className=""
+                  onSubmit={(e) => this.editSelection(e, projectIndex, null)}
                 >
+                  {this.state.editActive.project === projectIndex && this.state.editActive.todo === null ?
+                    <React.Fragment> 
+                      <input 
+                        className="edit-form" 
+                        type="text" 
+                        placeholder="New Name"
+                        onChange={(e) => this.setState({editField: e.target.value})} 
+                        value={this.state.editField}
+                      />
+                      <button type="submit">Change Name</button>
+                    </React.Fragment>
+                  : 
+                  <button
+                  className="projects-list-entry_edit-btn"
+                  onClick={(e) => this.activateEdit(e, projectIndex, null)}
+                  >
                   Edit Project
-                </button>
+                  </button>}
+                </form>
 
                 {/* DELETE BUTTON */}
                 <button 
@@ -193,12 +268,29 @@ class Home extends React.Component {
                         {todo.name}
 
                         {/* EDIT TODO */}
-                        <button
-                          onClick={() => this.editTodo(projectIndex, todoIndex)}
+                        <form
+                          className=""
+                          onSubmit={(e) => this.editSelection(e, projectIndex, todoIndex)}
                         >
-                          Edit Todo
-                        </button>
-
+                          {this.state.editActive.todo === todoIndex && this.state.editActive.project === projectIndex ? 
+                          <React.Fragment> 
+                            <input 
+                              className="edit-form" 
+                              type="text" 
+                              placeholder="New Name"
+                              onChange={(e) => this.setState({editField: e.target.value})} 
+                              value={this.state.editField}
+                            />
+                            <button type="submit">Change Name</button>
+                          </React.Fragment>
+                          :
+                          <button
+                            onClick={(e) => this.activateEdit(e, projectIndex, todoIndex)}
+                          >
+                            Edit Todo
+                          </button>
+                          } 
+                        </form>
                         {/* REMOVE TODO */}
                         <button
                           onClick={() => this.removeTodo(projectIndex, todoIndex)}
