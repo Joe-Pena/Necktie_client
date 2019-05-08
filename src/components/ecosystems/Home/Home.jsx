@@ -1,4 +1,5 @@
 import React from 'react'
+import Axios from 'axios'
 
 class Home extends React.Component {
   constructor(props) {
@@ -12,41 +13,14 @@ class Home extends React.Component {
         project: null,
         todo: null
       },
-      projects: [
-        {
-          name: 'Awesome Project',
-          done: false,
-          todos: [
-            {
-              name: 'Start the project',
-              done: false
-            },
-            {
-              name: 'Make it pretty',
-              done: false
-            }
-          ]
-        },
-        {
-          name: 'Second Project',
-          done: false,
-          todos: [
-            {
-              name: 'Start the project',
-              done: false
-            },
-            {
-              name: 'Make it pretty',
-              done: false
-            },
-            {
-              name: 'Add more candies',
-              done: false
-            }
-          ]
-        }
-      ],
+      projects: []
     }
+  }
+
+  componentDidMount() {
+    Axios.get('http://localhost:3001/api/v1/projects/', {withCredentials: true})
+    .then(res => console.log(res.data.data))
+    .catch(err => alert(err.message))
   }
 
   projectFormSubmit(e) {
@@ -207,7 +181,8 @@ class Home extends React.Component {
 
         {/* PROJECTLIST */}
         <div className="projects-list">
-          {this.state.projects.map((project, projectIndex) => {
+          {
+            this.state.projects.map((project, projectIndex) => {
             return (
               <div className="projects-list_entry" key={projectIndex}>
                 <h2>{project.name}</h2>
@@ -304,7 +279,8 @@ class Home extends React.Component {
                 </ul>
               </div>
             )
-          })}
+          }
+          )}
         </div>
       </main>
     )
