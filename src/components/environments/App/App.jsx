@@ -25,7 +25,6 @@ class App extends React.Component {
   checkLoginStatus () {
     Axios.get('http://localhost:3001/api/v1/logged_in', { withCredentials: true })
     .then(res => {
-      console.log('logincheck', res)
       if(res.data.logged_in && !this.state.loggedInStatus) {
         this.setState({
           loggedInStatus: true,
@@ -66,7 +65,8 @@ class App extends React.Component {
           exact path='/' 
           render={props => (
             <Home {...props} 
-              loggedInStatus= {this.state.loggedInStatus} 
+              loggedInStatus= {this.state.loggedInStatus}
+              username= {this.state.user.username} 
             />
           )} 
         />

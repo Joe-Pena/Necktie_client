@@ -19,9 +19,14 @@ class Home extends React.Component {
 
   componentDidMount() {
     Axios.get('http://localhost:3001/api/v1/projects/', {withCredentials: true})
-    .then(res => console.log(res.data.data))
+    .then(res => {
+      this.setState({
+        projects: res.data.data,
+      })
+    })
     .catch(err => alert(err.message))
   }
+
 
   projectFormSubmit(e) {
     e.preventDefault()
@@ -29,13 +34,12 @@ class Home extends React.Component {
     if(!this.state.projectField) {
       return alert('Field cannot be left blank')
     }
-
+    Axios.post(`http://localhost:3001/api/v1/projects`, {
+      name: this.state.projectField,
+      done: false,
+      todos: []
+    }, {withCredentials: true})
     this.setState({
-      projects: [...this.state.projects, {
-        name: this.state.projectField,
-        done: false,
-        todos: []
-      }],
       projectField: ''
     })
   }
@@ -62,20 +66,20 @@ class Home extends React.Component {
   toggleProjectDone(e, projectIndex) {
     let projects = [...this.state.projects]
     let project = projects[projectIndex]
-    project.done = e.target.checked
-    this.setState({
-      projects: [...projects]
-    })
+    let done = e.target.checked
+    Axios.put(`http://localhost:3001/api/v1/projects/${project.id}`, {
+        done
+      }, {withCredentials: true})
   }
 
   toggleTodoDone(e, projectIndex, todoIndex) {
     let projects = [...this.state.projects]
     let project = projects[projectIndex]
     let todo = project.todos[todoIndex]
-    todo.done = e.target.checked
-    this.setState({
-      projects: [...projects],
-    })
+    let done = e.target.checked
+    Axios.put(`http://localhost:3001/api/v1/todos/${todo.id}`, {
+        done
+      }, {withCredentials: true})
   }
 
   removeProject(projectIndex) {
@@ -134,10 +138,11 @@ class Home extends React.Component {
 
 
     if(todoIndex === null) {
-      console.log('changin name of p', projectIndex, 'to', this.state.editField)
       project.name = this.state.editField 
+      Axios.put(`http://localhost:3001/api/v1/projects/${project.id}`, {
+        name: this.state.editField
+      }, {withCredentials: true})
       this.setState({
-        projects,
         editField: '',
         editActive: {
           project: null,
@@ -145,10 +150,11 @@ class Home extends React.Component {
         }
       })
     } else {
-      console.log('changin name of todo', projectIndex, '-', todoIndex, 'to', this.state.editField)
-      project.todos[todoIndex].name = this.state.editField
+      let todo = project.todos[todoIndex]
+      Axios.put(`http://localhost:3001/api/v1/todos/${todo.id}`, {
+        name: this.state.editField
+      }, {withCredentials: true})
       this.setState({
-        projects,
         editField: '',
         editActive: {
           project: null,
@@ -159,11 +165,26 @@ class Home extends React.Component {
   }
 
   render() {
+    if(!this.props.loggedInStatus) {
+      return (
+        <div className="project-list--restricted">
+          {this.state.projects.map((project, projectIndex) => {
+            return (
+              <div className="project-list-entry--restricted" key={project.id}>
+                <h2>{project.name}</h2>
+                <span>Log in to see more</span>
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
+
     return (
       <main className="home-page">
       
         <h1>Current Necktie projects</h1>
-        <h3>Logged in: {`${this.props.loggedInStatus}`}</h3>
+        <h3>Welcome, {this.props.username}</h3>
 
         {/* PROJECT SUBMIT FORM */}
         <form 
@@ -184,7 +205,7 @@ class Home extends React.Component {
           {
             this.state.projects.map((project, projectIndex) => {
             return (
-              <div className="projects-list_entry" key={projectIndex}>
+              <div className="projects-list_entry" key={project.id}>
                 <h2>{project.name}</h2>
                 <input type="checkbox" onChange={(e) => this.toggleProjectDone(e, projectIndex)}/>
 
@@ -239,7 +260,7 @@ class Home extends React.Component {
                 <ul>
                   {project.todos.map((todo, todoIndex) => {
                     return (
-                      <li key={todoIndex}>
+                      <li key={todo.id}>
                         <input type="checkbox" onChange={(e) => this.toggleTodoDone(e, projectIndex, todoIndex)}/>
                         {todo.name}
 
