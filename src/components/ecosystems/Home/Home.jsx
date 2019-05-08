@@ -189,6 +189,7 @@ class Home extends React.Component {
       <main className="home-page">
       
         <h1>Current Necktie projects</h1>
+        <h3>Logged in: {`${this.props.loggedInStatus}`}</h3>
 
         {/* PROJECT SUBMIT FORM */}
         <form 
