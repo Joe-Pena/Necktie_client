@@ -5,6 +5,7 @@ import { Home } from '../../ecosystems'
 import { Route } from 'react-router-dom'
 import { LoginPage } from '../../ecosystems';
 import { SignUpPage } from '../../ecosystems';
+
 class App extends React.Component {
   constructor(props) {
     super(props) 

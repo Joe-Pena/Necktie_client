@@ -135,16 +135,22 @@ class Home extends React.Component {
   render() {
     if(!this.props.loggedInStatus) {
       return (
-        <div className="project-list--restricted">
-          {this.state.projects.map(project => {
-            return (
-              <div className="project-list-entry--restricted" key={project.id}>
-                <h2>{project.name}</h2>
-                <span>Log in to see more</span>
-              </div>
-            )
-          })}
-        </div>
+        <main className="home-page">
+          <div className="home-page_welcome">
+            <h1>Current Necktie projects</h1>
+            <h3>Welcome, login to view and edit projects</h3>
+          </div>
+          <div className="projects-list">
+            {this.state.projects.map(project => {
+              return (
+                <div className="projects-list_entry" key={project.id}>
+                  <h2>{project.name}</h2>
+                  <span>Log in to see more</span>
+                </div>
+              )
+            })}
+          </div>
+        </main>
       )
     }
 
@@ -175,8 +181,22 @@ class Home extends React.Component {
             this.state.projects.map((project, projectIndex) => {
             return (
               <div className="projects-list_entry" key={project.id}>
-                <h2>{project.name}</h2>
-                <input type="checkbox" onChange={(e) => this.toggleProjectDone(e, project)}/>
+                <h2 className="projects-list_entry_title">{project.name}</h2>
+
+                {project.done ? 
+                  <input 
+                    type="checkbox" 
+                    className="projects-list_entry_checkbox" 
+                    onChange={(e) => this.toggleProjectDone(e, project)} 
+                    checked
+                  />
+                :
+                  <input 
+                    type="checkbox" 
+                    className="projects-list_entry_checkbox" 
+                    onChange={(e) => this.toggleProjectDone(e, project)}
+                  />
+                }
 
                 {/* TODO SUBMIT FORM */}
                 <form 
@@ -230,8 +250,21 @@ class Home extends React.Component {
                   {project.todos.map((todo, todoIndex) => {
                     return (
                       <li key={todo.id}>
-                        <input type="checkbox" onChange={(e) => this.toggleTodoDone(e, todo)}/>
-                        {todo.name}
+                        <span>{todo.name}</span>
+                        {todo.done ? 
+                          <input 
+                            type="checkbox" 
+                            className="projects-list_entry_checkbox" 
+                            onChange={(e) => this.toggleTodoDone(e, todo)} 
+                            checked
+                          />
+                        :
+                          <input 
+                            type="checkbox" 
+                            className="projects-list_entry_checkbox" 
+                            onChange={(e) => this.toggleTodoDone(e, todo)}
+                          />
+                        }
 
                         {/* EDIT TODO */}
                         <form

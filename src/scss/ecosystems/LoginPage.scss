@@ -1,0 +1,55 @@
+$color-highlight: #3987fc;
+$color-background: #181818;
+$color-text: #dedede;
+$color-placeholder: #dededea1;
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-background;
+  min-height: 90vh;
+
+  & h1 {
+    color: $color-text;
+  }
+
+  &_login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 3px solid $color-text;
+    border-radius: 2px;
+    padding: 20px;
+    height: 300px;
+    width: 350px;
+
+    & input {
+      border: 3px solid $color-text;
+      background-color: transparent;
+      color: $color-text;
+      height: 30px;
+      padding: 5px 8px;
+      margin-right: 5px;
+
+      &::placeholder {
+        color: $color-placeholder;
+        font-weight: 600;
+      }
+    }
+
+    & button {
+      background-color: $color-text;
+      color: $color-background;
+      height: 30px;
+      border: none;
+      margin-left: 5px;
+      font-weight: 700;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

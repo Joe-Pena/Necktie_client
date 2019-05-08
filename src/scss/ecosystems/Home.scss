@@ -5,13 +5,15 @@ $color-placeholder: #dededea1;
 
 .home-page {
   display: grid;
-  grid-template-rows: 20% auto;
+  grid-template-rows: 25% 1fr;
   grid-template-areas: "welcome""project-list";
   justify-content: center;
+  height: 90vh;
   background-color: $color-background;
   color: $color-text;
 
   &_welcome {
+    grid-area: welcome;
     text-align: center;
 
     &_project-submit-form {
@@ -55,6 +57,7 @@ $color-placeholder: #dededea1;
       background-color: $color-text;
       color: $color-background;
       border-radius: 2px;
+      width: 500px;
       padding: 15px 10px;
       margin: 10px 0;
     }

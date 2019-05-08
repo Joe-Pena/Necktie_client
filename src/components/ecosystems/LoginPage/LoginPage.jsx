@@ -46,9 +46,10 @@ class LoginPage extends React.Component {
 
   render() {
     return(
-      <main className="signup-page">
+      <main className="login-page">
+        <h1>Log in below</h1>
         <form 
-          className="signup-form"
+          className="login-page_login-form"
           onSubmit={(e) => this.formSubmit(e)}  
         >
           <input 
