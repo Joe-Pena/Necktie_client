@@ -18,10 +18,21 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchAllProjects()
+  }
+
+  fetchAllProjects() {
     Axios.get('http://localhost:3001/api/v1/projects/', {withCredentials: true})
     .then(res => {
       this.setState({
         projects: res.data.data,
+        projectField: '',
+        todoField: '',
+        editField: '',
+        editActive: {
+          project: null,
+          todo: null
+        }
       })
     })
     .catch(err => alert(err.message))
@@ -39,74 +50,48 @@ class Home extends React.Component {
       done: false,
       todos: []
     }, {withCredentials: true})
-    this.setState({
-      projectField: ''
-    })
+    .then(() => this.fetchAllProjects())
+   
   }
 
-  todoFormSubmit(e, projectIndex) {
+  todoFormSubmit(e, project) {
     e.preventDefault()
     
     if(!this.state.todoField) {
       return alert('Field cannot be left blank')
     }
-
-    let projects = [...this.state.projects]
-    let project = projects[projectIndex]
-    project.todos = [...project.todos, {
+    Axios.post(`http://localhost:3001/api/v1/todos`, {
       name: this.state.todoField,
-      done: false
-    }]
-    this.setState({
-      projects,
-      todoField: ''
-    })
+      done: false,
+      project_id: project.id
+    },{withCredentials: true})
+    .then(() => this.fetchAllProjects())
   }
 
-  toggleProjectDone(e, projectIndex) {
-    let projects = [...this.state.projects]
-    let project = projects[projectIndex]
+  toggleProjectDone(e, project) {
     let done = e.target.checked
     Axios.put(`http://localhost:3001/api/v1/projects/${project.id}`, {
         done
       }, {withCredentials: true})
+    .then(() => this.fetchAllProjects())
   }
 
-  toggleTodoDone(e, projectIndex, todoIndex) {
-    let projects = [...this.state.projects]
-    let project = projects[projectIndex]
-    let todo = project.todos[todoIndex]
+  toggleTodoDone(e, todo) {
     let done = e.target.checked
     Axios.put(`http://localhost:3001/api/v1/todos/${todo.id}`, {
         done
       }, {withCredentials: true})
+    .then(() => this.fetchAllProjects())
   }
 
-  removeProject(projectIndex) {
-    console.log('removing project at:', projectIndex)
-    let projects = [...this.state.projects]
-    projects.splice(projectIndex, 1)
-    this.setState({
-      projects
-    })
+  removeProject(project) {
+    Axios.delete(`http://localhost:3001/api/v1/projects/${project.id}`, {withCredentials: true})
+    .then(() => this.fetchAllProjects())
   }
 
-  removeTodo(projectIndex, todoIndex) {
-    console.log('removing todo #', todoIndex)
-    let projects = [...this.state.projects]
-    let project = projects[projectIndex]
-    project.todos.splice(todoIndex, 1)
-    this.setState({
-      projects
-    })
-  }
-
-  editProject(projectIndex) {
-    console.log('editing project', projectIndex)
-  }
-
-  editTodo(projectIndex, todoIndex) {
-    console.log('editing project', projectIndex, 'todo', todoIndex)
+  removeTodo(todo) {
+    Axios.delete(`http://localhost:3001/api/v1/todos/${todo.id}`, {withCredentials: true})
+    .then(() => this.fetchAllProjects())
   }
 
   activateEdit(e, projectIndex, todoIndex) {
@@ -131,36 +116,19 @@ class Home extends React.Component {
     }
   }
 
-  editSelection(e, projectIndex, todoIndex) {
+  editSelection(e, project, todo) {
     e.preventDefault();
-    let projects = [...this.state.projects]
-    let project = projects[projectIndex]
 
-
-    if(todoIndex === null) {
-      project.name = this.state.editField 
+    if(!todo) {
       Axios.put(`http://localhost:3001/api/v1/projects/${project.id}`, {
         name: this.state.editField
       }, {withCredentials: true})
-      this.setState({
-        editField: '',
-        editActive: {
-          project: null,
-          todo: null
-        }
-      })
+      .then(() => this.fetchAllProjects())
     } else {
-      let todo = project.todos[todoIndex]
       Axios.put(`http://localhost:3001/api/v1/todos/${todo.id}`, {
         name: this.state.editField
       }, {withCredentials: true})
-      this.setState({
-        editField: '',
-        editActive: {
-          project: null,
-          todo: null
-        }
-      })
+      .then(() => this.fetchAllProjects())
     }
   }
 
@@ -168,7 +136,7 @@ class Home extends React.Component {
     if(!this.props.loggedInStatus) {
       return (
         <div className="project-list--restricted">
-          {this.state.projects.map((project, projectIndex) => {
+          {this.state.projects.map(project => {
             return (
               <div className="project-list-entry--restricted" key={project.id}>
                 <h2>{project.name}</h2>
@@ -182,24 +150,25 @@ class Home extends React.Component {
 
     return (
       <main className="home-page">
-      
-        <h1>Current Necktie projects</h1>
-        <h3>Welcome, {this.props.username}</h3>
 
-        {/* PROJECT SUBMIT FORM */}
-        <form 
-          className="home-page_project-submit-form"
-          onSubmit={(e) => this.projectFormSubmit(e)}
-        >
-          <input
-            type="text" 
-            placeholder="Add a Project"
-            onChange= {e => this.setState({projectField: e.target.value})}
-            value= {this.state.projectField}
-          />
-          <button type="submit">Add Project</button>
-        </form>
+        <div className="home-page_welcome">
+          <h1>Current Necktie projects</h1>
+          <h3>Welcome, {this.props.username}</h3>
 
+          {/* PROJECT SUBMIT FORM */}
+          <form 
+            className="home-page_welcome_project-submit-form"
+            onSubmit={(e) => this.projectFormSubmit(e)}
+          >
+            <input
+              type="text" 
+              placeholder="Add a Project"
+              onChange= {e => this.setState({projectField: e.target.value})}
+              value= {this.state.projectField}
+            />
+            <button type="submit">Add Project</button>
+          </form>
+        </div>
         {/* PROJECTLIST */}
         <div className="projects-list">
           {
@@ -207,12 +176,12 @@ class Home extends React.Component {
             return (
               <div className="projects-list_entry" key={project.id}>
                 <h2>{project.name}</h2>
-                <input type="checkbox" onChange={(e) => this.toggleProjectDone(e, projectIndex)}/>
+                <input type="checkbox" onChange={(e) => this.toggleProjectDone(e, project)}/>
 
                 {/* TODO SUBMIT FORM */}
                 <form 
                   className="projects-list_entry_todo-form"
-                  onSubmit={(e) => this.todoFormSubmit(e, projectIndex)}
+                  onSubmit={(e) => this.todoFormSubmit(e, project)}
                 >
                   <input 
                     type="text" 
@@ -226,7 +195,7 @@ class Home extends React.Component {
                 {/* EDIT PROJECT */}
                 <form 
                   className=""
-                  onSubmit={(e) => this.editSelection(e, projectIndex, null)}
+                  onSubmit={(e) => this.editSelection(e, project, null)}
                 >
                   {this.state.editActive.project === projectIndex && this.state.editActive.todo === null ?
                     <React.Fragment> 
@@ -251,7 +220,7 @@ class Home extends React.Component {
                 {/* DELETE BUTTON */}
                 <button 
                   className="projects-list-entry_delete-btn"
-                  onClick={() => this.removeProject(projectIndex)}
+                  onClick={() => this.removeProject(project)}
                 >
                   Remove Project
                 </button>
@@ -261,13 +230,13 @@ class Home extends React.Component {
                   {project.todos.map((todo, todoIndex) => {
                     return (
                       <li key={todo.id}>
-                        <input type="checkbox" onChange={(e) => this.toggleTodoDone(e, projectIndex, todoIndex)}/>
+                        <input type="checkbox" onChange={(e) => this.toggleTodoDone(e, todo)}/>
                         {todo.name}
 
                         {/* EDIT TODO */}
                         <form
                           className=""
-                          onSubmit={(e) => this.editSelection(e, projectIndex, todoIndex)}
+                          onSubmit={(e) => this.editSelection(e, project, todo)}
                         >
                           {this.state.editActive.todo === todoIndex && this.state.editActive.project === projectIndex ? 
                           <React.Fragment> 
@@ -290,7 +259,7 @@ class Home extends React.Component {
                         </form>
                         {/* REMOVE TODO */}
                         <button
-                          onClick={() => this.removeTodo(projectIndex, todoIndex)}
+                          onClick={() => this.removeTodo(todo)}
                         >
                           Remove todo
                         </button>

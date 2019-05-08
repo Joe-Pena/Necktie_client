@@ -1,3 +1,9 @@
+@import './ecosystems/Header.scss';
+@import './ecosystems/Home.scss';
+
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   padding: 0;

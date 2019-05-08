@@ -1,0 +1,51 @@
+$color-highlight: #3987fc;
+$color-background: #181818;
+$color-text: #dedede;
+
+.header {
+  display: grid;
+  grid-template-columns: 10% 1fr 20%;
+  grid-template-areas: 'logo . links';
+  background-color: $color-background;
+  padding: 15px 5px;
+
+  &_logo {
+    grid-area: logo;
+    width: 3rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+  }
+
+  &_links {
+    grid-area: links;
+    display: flex;
+    justify-content: space-evenly;
+
+    &_link {
+      width: 3rem;
+      text-decoration: none;
+      color: $color-text;
+      transition: all 0.5s ease;
+  
+      &:hover {
+        color: $color-highlight;
+      }
+    }
+
+    &_logout-btn {
+      border: 2px solid $color-text;
+      background-color: transparent;
+      color: $color-text;
+      width: 4.5rem;
+      border-radius: 2px;
+      transition: all 0.5s ease;
+  
+      &:hover {
+        border: 2px solid $color-highlight;
+        color: $color-highlight;
+        cursor: pointer;
+      }
+    }
+  }
+}

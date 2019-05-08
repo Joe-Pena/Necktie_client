@@ -1,0 +1,63 @@
+$color-highlight: #3987fc;
+$color-background: #181818;
+$color-text: #dedede;
+$color-placeholder: #dededea1;
+
+.home-page {
+  display: grid;
+  grid-template-rows: 20% auto;
+  grid-template-areas: "welcome""project-list";
+  justify-content: center;
+  background-color: $color-background;
+  color: $color-text;
+
+  &_welcome {
+    text-align: center;
+
+    &_project-submit-form {
+
+      & input {
+        border: 3px solid $color-text;
+        background-color: transparent;
+        color: $color-text;
+        height: 30px;
+        padding: 5px 8px;
+        margin-right: 5px;
+
+        &::placeholder {
+          color: $color-placeholder;
+          font-weight: 600;
+        }
+      }
+
+      & button {
+        background-color: $color-text;
+        color: $color-background;
+        height: 30px;
+        border: none;
+        margin-left: 5px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .projects-list {
+    grid-area: project-list;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    &_entry {
+      background-color: $color-text;
+      color: $color-background;
+      border-radius: 2px;
+      padding: 15px 10px;
+      margin: 10px 0;
+    }
+  }
+}
+

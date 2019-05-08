@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../../Header'
 import Axios from 'axios'
+import { Header } from '../../ecosystems'
 import { Home } from '../../ecosystems'
 import { Route } from 'react-router-dom'
 import { LoginPage } from '../../ecosystems';
