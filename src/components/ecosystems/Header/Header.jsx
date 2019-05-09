@@ -16,7 +16,7 @@ class Header extends React.Component {
         <header className="header">
           <Link to='/'><img src={Logo} alt='Necktie Logo' className='header_logo' /></Link>
           <div className="header_links">
-            <Link to='/'><span className='header_links_link'>Home</span></Link>
+            <Link to='/' className='header_links_link'>Home</Link>
             <button
             onClick={() => this.logoutOnClick()}
             className='header_links_logout-btn'
@@ -29,11 +29,11 @@ class Header extends React.Component {
     } else {
       return(
         <header className="header">
-          <Link to='/'><span className='header_logo'>Necktie</span></Link>
+          <Link to='/'><img src={Logo} alt='Necktie Logo' className='header_logo' /></Link>
           <div className='header_links'>
-            <Link to='/'><span className='header_links_link'>Home</span></Link>
-            <Link to='/login'><span className='header_links_link'>Login</span></Link>
-            <Link to='/signup'><span className='header_links_link'>Sign Up</span></Link>
+            <Link to='/' className='header_links_link'>Home</Link>
+            <Link to='/login' className='header_links_link'>Login</Link>
+            <Link to='/signup' className='header_links_link'>SignUp</Link>
           </div>
         </header>
       )

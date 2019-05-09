@@ -1,7 +1,7 @@
 $color-highlight: #3987fc;
 $color-background: #181818;
 $color-text: #dedede;
-$color-placeholder: #dededea1;
+$color-placeholder: #dedede88;
 
 .login-page {
   display: flex;
@@ -13,6 +13,7 @@ $color-placeholder: #dededea1;
 
   & h1 {
     color: $color-text;
+    margin-top: 5%;
   }
 
   &_login-form {

@@ -5,7 +5,7 @@ $color-text: #dedede;
 .header {
   display: grid;
   position: fixed;
-  grid-template-columns: 10% 1fr 25%;
+  grid-template-columns: 10% 1fr 30%;
   grid-template-areas: "logo . links";
   background-color: rgba(24,24,24, 0.7);
   padding: 15px 5px;
