@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
+import Logo from '../../../images/necktielogo.png'
 
 class Header extends React.Component {
   logoutOnClick() {
@@ -13,7 +14,7 @@ class Header extends React.Component {
     if(this.props.loggedInStatus) {
       return(
         <header className="header">
-          <Link to='/'><span className='header_logo'>Necktie</span></Link>
+          <Link to='/'><img src={Logo} alt='Necktie Logo' className='header_logo' /></Link>
           <div className="header_links">
             <Link to='/'><span className='header_links_link'>Home</span></Link>
             <button

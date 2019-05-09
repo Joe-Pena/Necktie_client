@@ -168,7 +168,7 @@ class Home extends React.Component {
           >
             <input
               type="text" 
-              placeholder="Add a Project"
+              placeholder="Project name"
               onChange= {e => this.setState({projectField: e.target.value})}
               value= {this.state.projectField}
             />

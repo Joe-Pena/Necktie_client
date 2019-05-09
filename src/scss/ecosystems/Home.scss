@@ -4,17 +4,18 @@ $color-text: #dedede;
 $color-placeholder: #dededea1;
 
 .home-page {
-  display: grid;
-  grid-template-rows: 25% 1fr;
-  grid-template-areas: "welcome""project-list";
-  justify-content: center;
-  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
   background-color: $color-background;
   color: $color-text;
 
   &_welcome {
-    grid-area: welcome;
     text-align: center;
+    margin-top: 5%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
 
     &_project-submit-form {
 
@@ -29,12 +30,15 @@ $color-placeholder: #dededea1;
         &::placeholder {
           color: $color-placeholder;
           font-weight: 600;
+          font-family: 'Oswald', sans-serif;
         }
       }
 
       & button {
         background-color: $color-text;
         color: $color-background;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 600;
         height: 30px;
         border: none;
         margin-left: 5px;
@@ -47,7 +51,6 @@ $color-placeholder: #dededea1;
   }
 
   .projects-list {
-    grid-area: project-list;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
