@@ -185,19 +185,25 @@ class Home extends React.Component {
                 <div className="projects-list_entry_project">
                   <h2 className="projects-list_entry_project_title">{project.name}</h2>
 
-                  {project.done ? 
-                    <input 
-                      type="checkbox" 
-                      className="projects-list_entry_project_checkbox" 
-                      onChange={(e) => this.toggleProjectDone(e, project)} 
-                      checked
-                    />
+                  {project.done ?
+                    <React.Fragment> 
+                      <span>Done: </span>
+                      <input 
+                        type="checkbox" 
+                        className="projects-list_entry_project_checkbox" 
+                        onChange={(e) => this.toggleProjectDone(e, project)} 
+                        checked
+                      />
+                    </React.Fragment>
                   :
-                    <input 
-                      type="checkbox" 
-                      className="projects-list_entry_project_checkbox" 
-                      onChange={(e) => this.toggleProjectDone(e, project)}
-                    />
+                    <React.Fragment>
+                      <span>Done: </span>
+                      <input 
+                        type="checkbox" 
+                        className="projects-list_entry_project_checkbox" 
+                        onChange={(e) => this.toggleProjectDone(e, project)}
+                      />
+                    </React.Fragment>
                   }
 
                   {/* EDIT PROJECT */}
@@ -225,10 +231,10 @@ class Home extends React.Component {
                   
                   {/* DELETE BUTTON */}
                   <button 
-                    className="projects-list-entry_project_delete-btn"
+                    className="projects-list_entry_project_delete-btn"
                     onClick={() => this.removeProject(project)}
                   >
-                    Remove Project
+                    Delete
                   </button>
                 </div>
                 {/* TODO SUBMIT FORM */}
