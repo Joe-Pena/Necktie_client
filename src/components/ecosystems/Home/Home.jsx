@@ -22,7 +22,7 @@ class Home extends React.Component {
   }
 
   fetchAllProjects() {
-    Axios.get('http://localhost:3001/api/v1/projects/', {withCredentials: true})
+    Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})
     .then(res => {
       this.setState({
         projects: res.data.data,
@@ -45,7 +45,7 @@ class Home extends React.Component {
     if(!this.state.projectField) {
       return alert('Field cannot be left blank')
     }
-    Axios.post(`http://localhost:3001/api/v1/projects`, {
+    Axios.post(`${process.env.REACT_APP_API_URL}/api/v1/projects`, {
       name: this.state.projectField,
       done: false,
       todos: []
@@ -60,7 +60,7 @@ class Home extends React.Component {
     if(!this.state.todoField) {
       return alert('Field cannot be left blank')
     }
-    Axios.post(`http://localhost:3001/api/v1/todos`, {
+    Axios.post(`${process.env.REACT_APP_API_URL}/api/v1/todos`, {
       name: this.state.todoField,
       done: false,
       project_id: project.id
@@ -70,7 +70,7 @@ class Home extends React.Component {
 
   toggleProjectDone(e, project) {
     let done = e.target.checked
-    Axios.put(`http://localhost:3001/api/v1/projects/${project.id}`, {
+    Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
         done
       }, {withCredentials: true})
     .then(() => this.fetchAllProjects())
@@ -78,19 +78,19 @@ class Home extends React.Component {
 
   toggleTodoDone(e, todo) {
     let done = e.target.checked
-    Axios.put(`http://localhost:3001/api/v1/todos/${todo.id}`, {
+    Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/todos/${todo.id}`, {
         done
       }, {withCredentials: true})
     .then(() => this.fetchAllProjects())
   }
 
   removeProject(project) {
-    Axios.delete(`http://localhost:3001/api/v1/projects/${project.id}`, {withCredentials: true})
+    Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {withCredentials: true})
     .then(() => this.fetchAllProjects())
   }
 
   removeTodo(todo) {
-    Axios.delete(`http://localhost:3001/api/v1/todos/${todo.id}`, {withCredentials: true})
+    Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/todos/${todo.id}`, {withCredentials: true})
     .then(() => this.fetchAllProjects())
   }
 
@@ -120,12 +120,12 @@ class Home extends React.Component {
     e.preventDefault();
 
     if(!todo) {
-      Axios.put(`http://localhost:3001/api/v1/projects/${project.id}`, {
+      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
         name: this.state.editField
       }, {withCredentials: true})
       .then(() => this.fetchAllProjects())
     } else {
-      Axios.put(`http://localhost:3001/api/v1/todos/${todo.id}`, {
+      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/todos/${todo.id}`, {
         name: this.state.editField
       }, {withCredentials: true})
       .then(() => this.fetchAllProjects())

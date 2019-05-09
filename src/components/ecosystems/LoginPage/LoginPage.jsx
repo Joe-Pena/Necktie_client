@@ -15,7 +15,7 @@ class LoginPage extends React.Component {
   formSubmit(e) {
     e.preventDefault()
     const { username, password } = this.state
-    axios.post('http://localhost:3001/api/v1/sessions', {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/v1/sessions`, {
       user: {
         username,
         password,

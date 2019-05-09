@@ -1,10 +1,13 @@
 import React from 'react'
+import dotenv from 'dotenv'
 import Axios from 'axios'
 import { Header } from '../../ecosystems'
 import { Home } from '../../ecosystems'
 import { Route } from 'react-router-dom'
 import { LoginPage } from '../../ecosystems';
 import { SignUpPage } from '../../ecosystems';
+
+dotenv.config()
 
 class App extends React.Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class App extends React.Component {
   }
 
   checkLoginStatus () {
-    Axios.get('http://localhost:3001/api/v1/logged_in', { withCredentials: true })
+    Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/logged_in`, { withCredentials: true })
     .then(res => {
       if(res.data.logged_in && !this.state.loggedInStatus) {
         this.setState({

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 class Header extends React.Component {
   logoutOnClick() {
-    Axios.delete('http://localhost:3001/api/v1/logout', {withCredentials: true})
+    Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/logout`, {withCredentials: true})
     .then(res => this.props.handleLogout())
     .catch(err => alert(err.message))
   }

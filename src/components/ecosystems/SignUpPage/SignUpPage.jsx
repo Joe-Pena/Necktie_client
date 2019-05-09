@@ -17,7 +17,7 @@ class SignUpPage extends React.Component {
   formSubmit(e) {
     e.preventDefault()
     const { username, email, password, password_confirmation} = this.state
-    axios.post('http://localhost:3001/api/v1/users', {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/v1/users`, {
       user: {
         username,
         email,
