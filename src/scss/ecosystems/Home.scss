@@ -1,7 +1,7 @@
 $color-highlight: #3987fc;
 $color-background: #181818;
 $color-text: #dedede;
-$color-placeholder: #dededea1;
+$color-placeholder: #dedede88;
 
 .home-page {
   display: flex;
@@ -57,12 +57,36 @@ $color-placeholder: #dededea1;
     align-items: center;
 
     &_entry {
-      background-color: $color-text;
-      color: $color-background;
+      display: grid;
+      // grid-template-columns: 1fr 10%;
+      grid-template-rows: 25% 1fr;
+      grid-template-areas: 
+        "project"
+        "todos"
+      ;
+      background-color: transparent;
+      color: $color-text;
+      border: 3px solid $color-text;
       border-radius: 2px;
       width: 500px;
-      padding: 15px 10px;
+      padding: 5px 0px;
       margin: 10px 0;
+
+      &_project {
+        grid-area: project;
+        display: flex;
+        justify-content: space-evenly;
+        border-bottom: 2px solid $color-text;
+      }
+
+      &_todo {
+        grid-area: todos;
+        display: flex;
+        justify-content: center;
+
+        &_todo-form {
+        }
+      }
     }
   }
 }

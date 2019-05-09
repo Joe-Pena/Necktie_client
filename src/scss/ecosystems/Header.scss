@@ -39,7 +39,7 @@ $color-text: #dedede;
     }
 
     &_logout-btn {
-      border: 2px solid $color-text;
+      border: none;
       background-color: transparent;
       color: $color-text;
       width: 4.5rem;
@@ -47,7 +47,6 @@ $color-text: #dedede;
       transition: all 0.5s ease;
   
       &:hover {
-        border: 2px solid $color-highlight;
         color: $color-highlight;
         cursor: pointer;
       }
