@@ -1,5 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
+import { Link } from 'react-router-dom'
 
 class Home extends React.Component {
   constructor(props) {
@@ -138,14 +139,14 @@ class Home extends React.Component {
         <main className="home-page">
           <div className="home-page_welcome">
             <h1>Current Necktie Projects</h1>
-            <h3>Welcome, login to view and edit projects</h3>
+            <h3>Welcome, <Link to='/login'>login</Link> to view and edit projects</h3>
           </div>
           <div className="projects-list">
             {this.state.projects.map(project => {
               return (
-                <div className="projects-list_entry" key={project.id}>
+                <div className="projects-list_entry--restricted" key={project.id}>
                   <h2>{project.name}</h2>
-                  <span>Log in to see more</span>
+                  <Link to='/login'>Log in to see more</Link>
                 </div>
               )
             })}
@@ -246,7 +247,7 @@ class Home extends React.Component {
                 </form>
 
                 {/* TODO LIST */}
-                <ul>
+                <ul className="projects-list-entry_todo_todo-list">
                   {project.todos.map((todo, todoIndex) => {
                     return (
                       <li key={todo.id}>

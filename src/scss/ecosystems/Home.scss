@@ -7,7 +7,8 @@ $color-placeholder: #dedede88;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 100%;
+  height: auto;
+  overflow: auto;
   background-color: $color-background;
   color: $color-text;
 
@@ -16,6 +17,11 @@ $color-placeholder: #dedede88;
     margin-top: 5%;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
+    cursor: default;
+
+    & a {
+      color: $color-text;
+    }
 
     &_project-submit-form {
 
@@ -59,7 +65,7 @@ $color-placeholder: #dedede88;
     &_entry {
       display: grid;
       // grid-template-columns: 1fr 10%;
-      grid-template-rows: 25% 1fr;
+      grid-template-rows: 30% 1fr;
       grid-template-areas: 
         "project"
         "todos"
@@ -69,20 +75,52 @@ $color-placeholder: #dedede88;
       border: 3px solid $color-text;
       border-radius: 2px;
       width: 500px;
+      min-height: 200px;
       padding: 5px 0px;
       margin: 10px 0;
+      overflow: auto;
+
+      &--restricted {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        color: $color-text;
+        border: 3px solid $color-text;
+        border-radius: 2px;
+        width: 500px;
+        padding: 5px 0px;
+        margin: 10px 0;
+
+        & h2 {
+          border-bottom: 2px solid $color-text;
+          width: 100%;
+          text-align: center;
+          cursor: default;
+        }
+
+        & a {
+          text-decoration: none;
+          color: $color-text;
+        }
+      }
 
       &_project {
         grid-area: project;
         display: flex;
         justify-content: space-evenly;
         border-bottom: 2px solid $color-text;
+        height: 100px;
       }
 
       &_todo {
         grid-area: todos;
         display: flex;
         justify-content: center;
+
+        &_todo-list {
+        }
 
         &_todo-form {
         }
