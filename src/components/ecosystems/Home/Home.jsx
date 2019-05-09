@@ -239,74 +239,75 @@ class Home extends React.Component {
                 </div>
                 {/* TODO SUBMIT FORM */}
                 <div className="projects-list-entry_todo">
-                <form 
-                  className="projects-list_entry_todo_todo-form"
-                  onSubmit={(e) => this.todoFormSubmit(e, project)}
-                >
-                  <input 
-                    type="text" 
-                    onChange={(e) => this.setState({todoField: e.target.value})} 
-                    placeholder="Add a new todo"
-                    // value={this.state.todoField}
-                  />
-                  <button type="submit">Add Todo</button>
-                </form>
+                  <form 
+                    className="projects-list_entry_todo_todo-form"
+                    onSubmit={(e) => this.todoFormSubmit(e, project)}
+                  >
+                    <input 
+                      type="text" 
+                      onChange={(e) => this.setState({todoField: e.target.value})} 
+                      placeholder="Add a new todo"
+                      // value={this.state.todoField}
+                    />
+                    <button type="submit">Add Todo</button>
+                  </form>
 
                 {/* TODO LIST */}
-                <ul className="projects-list-entry_todo_todo-list">
-                  {project.todos.map((todo, todoIndex) => {
-                    return (
-                      <li key={todo.id}>
-                        <span>{todo.name}</span>
-                        {todo.done ? 
-                          <input 
-                            type="checkbox" 
-                            className="projects-list_entry_checkbox" 
-                            onChange={(e) => this.toggleTodoDone(e, todo)} 
-                            checked
-                          />
-                        :
-                          <input 
-                            type="checkbox" 
-                            className="projects-list_entry_checkbox" 
-                            onChange={(e) => this.toggleTodoDone(e, todo)}
-                          />
-                        }
-
-                        {/* EDIT TODO */}
-                        <form
-                          className=""
-                          onSubmit={(e) => this.editSelection(e, project, todo)}
-                        >
-                          {this.state.editActive.todo === todoIndex && this.state.editActive.project === projectIndex ? 
-                          <React.Fragment> 
+                  <ul className="projects-list_entry_todo_todo-list">
+                    {project.todos.map((todo, todoIndex) => {
+                      return (
+                        <li className="projects-list_entry_todo_todo-list_todo" key={todo.id}>
+                          <span>{todo.name}</span>
+                          {todo.done ? 
                             <input 
-                              className="edit-form" 
-                              type="text" 
-                              placeholder="New Name"
-                              onChange={(e) => this.setState({editField: e.target.value})} 
-                              value={this.state.editField}
+                              type="checkbox" 
+                              className="projects-list_entry_checkbox" 
+                              onChange={(e) => this.toggleTodoDone(e, todo)} 
+                              checked
                             />
-                            <button type="submit">Change Name</button>
-                          </React.Fragment>
                           :
-                          <button
-                            onClick={(e) => this.activateEdit(e, projectIndex, todoIndex)}
+                            <input 
+                              type="checkbox" 
+                              className="projects-list_entry_checkbox" 
+                              onChange={(e) => this.toggleTodoDone(e, todo)}
+                            />
+                          }
+
+                          {/* EDIT TODO */}
+                          <form
+                            className="projects-list_entry_todo_todo-list_todo_edit-form"
+                            onSubmit={(e) => this.editSelection(e, project, todo)}
                           >
-                            Edit Todo
+                            {this.state.editActive.todo === todoIndex && this.state.editActive.project === projectIndex ? 
+                            <React.Fragment> 
+                              <input 
+                                className="edit-form" 
+                                type="text" 
+                                placeholder="New Name"
+                                onChange={(e) => this.setState({editField: e.target.value})} 
+                                value={this.state.editField}
+                              />
+                              <button type="submit">Change Name</button>
+                            </React.Fragment>
+                            :
+                            <button
+                              onClick={(e) => this.activateEdit(e, projectIndex, todoIndex)}
+                            >
+                              Edit Todo
+                            </button>
+                            } 
+                          </form>
+                          {/* REMOVE TODO */}
+                          <button
+                            className="projects-list_entry_todo_todo-list_todo_delete-btn"
+                            onClick={() => this.removeTodo(todo)}
+                          >
+                            Delete
                           </button>
-                          } 
-                        </form>
-                        {/* REMOVE TODO */}
-                        <button
-                          onClick={() => this.removeTodo(todo)}
-                        >
-                          Remove todo
-                        </button>
-                      </li>
-                    )
-                  })}
-                </ul>
+                        </li>
+                      )
+                    })}
+                  </ul>
                 </div>
               </div>
             )

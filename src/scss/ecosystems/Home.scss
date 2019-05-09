@@ -138,10 +138,80 @@ $color-placeholder: #dedede88;
         display: flex;
         justify-content: center;
 
-        &_todo-list {
+        &_todo-form {
+          margin: 5px 0 0 5px;
+
+          & input {
+            background-color: transparent;
+            border: 1px solid $color-text;
+            color: $color-text;
+            height: 25px;
+
+            &::placeholder {
+              color: $color-placeholder;
+            }
+          }
+
+          & button {
+            background-color: transparent;
+            color: $color-text;
+            border: 2px solid $color-text;
+            font-family: 'Oswald', sans-serif;
+            height: 25px;
+            cursor: pointer;
+          }
         }
 
-        &_todo-form {
+        &_todo-list {
+          list-style: none;
+          padding: none;
+
+          &_todo {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+
+            & span {
+              margin-right: auto;
+            }
+
+            &_edit-form {
+              justify-self: flex-end;
+
+              & input {
+                background-color: transparent;
+                border: none;
+                border-bottom: 2px solid $color-text;
+                color: $color-text;
+                height: 25px;
+    
+                &::placeholder {
+                  color: $color-placeholder;
+                }
+              }
+    
+              & button {
+                background-color: $color-text;
+                color: $color-background;
+                border: none;
+                height: 25px;
+                margin: 0 15px;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 600;
+                cursor: pointer;
+              }
+            }
+
+            &_delete-btn {
+              background-color: transparent;
+              border: 2px solid red;
+              color: red;
+              height: 25px;
+              right: 5;
+              margin-right: 15px;
+            }
+          }
         }
       }
     }
