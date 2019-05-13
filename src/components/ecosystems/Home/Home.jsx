@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
+import { RestrictedProjects } from '../../organisms';
 
 class Home extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Home extends React.Component {
   fetchAllProjects() {
     Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})
     .then(res => {
+      console.log(res)
       this.setState({
         projects: res.data.data,
         projectField: '',
@@ -141,23 +143,13 @@ class Home extends React.Component {
             <h1>Current Necktie Projects</h1>
             <h3>Welcome, <Link to='/login'>login</Link> to view and edit projects</h3>
           </div>
-          <div className="projects-list">
-            {this.state.projects.map(project => {
-              return (
-                <div className="projects-list_entry--restricted" key={project.id}>
-                  <h2>{project.name}</h2>
-                  <Link to='/login'>Log in to see more</Link>
-                </div>
-              )
-            })}
-          </div>
+          <RestrictedProjects projects={this.state.projects}/>
         </main>
       )
     }
 
     return (
       <main className="home-page">
-
         <div className="home-page_welcome">
           <h1>Current Necktie Projects</h1>
           <h3>Welcome, {this.props.username}</h3>
