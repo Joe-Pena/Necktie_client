@@ -6,7 +6,7 @@ const TodosList = ({ todos }) => {
     <ul className="projects-list_entry_todo_todo-list">
       {todos.map(todo => {
         return (
-          <Todo todo={todo}/>
+          <Todo todo={todo} key={todo.id}/>
         )
       })}
     </ul>

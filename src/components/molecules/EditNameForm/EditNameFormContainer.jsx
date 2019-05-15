@@ -1,4 +1,5 @@
 import { compose, withStateHandlers } from 'recompose'
+import EditNameForm from './EditNameForm'
 
 export default compose(
   withStateHandlers({
@@ -16,4 +17,4 @@ export default compose(
       inputValue: e.target.value
     })
   })
-)
+)(EditNameForm)

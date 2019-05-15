@@ -21,9 +21,9 @@ class Home extends React.Component {
     this.projectFormSubmit = this.projectFormSubmit.bind(this)
   }
 
-  componentDidMount() {
-    this.fetchAllProjects()
-  }
+  // componentDidMount() {
+  //   this.fetchAllProjects()
+  // }
 
   fetchAllProjects() {
     Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})

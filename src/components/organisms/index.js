@@ -2,7 +2,7 @@ import RestrictedProjects from './RestrictedProjects/RestrictedProjects'
 import ProjectsList from './ProjectsList/ProjectsListContainer'
 import Project from './Project/ProjectContainer'
 import TodoSection from './TodoSection/TodoSectionContainer'
-import TodosList from './TodosList/TodosListContainer'
+import TodosList from './TodosList/TodosList'
 import Todo from './Todo/TodoContainer'
 
 export {

@@ -1,5 +1,6 @@
 import { compose, withStateHandlers, lifecycle } from 'recompose'
 import Axios from 'axios'
+import ProjectsList from './ProjectsList';
 
 export default compose(
   withStateHandlers({
@@ -8,15 +9,19 @@ export default compose(
   {
     fetchAllProjects: ({projects}) => () => {
       Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})
-      .then(res => ({
-        projects: res.data.data
-      }))
+      .then(res => {
+        this.setState({projects: res.data.data})
+      })
       .catch(err => alert(err.message))
     }
   }),
   lifecycle({
     componentDidMount() {
-      this.props.fetchAllProjects()
+      Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})
+      .then(res => {
+        this.setState({projects: res.data.data})
+      })
+      .catch(err => alert(err.message))
     }
   })
-)
+)(ProjectsList)

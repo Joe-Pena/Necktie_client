@@ -2,14 +2,16 @@ import { compose, withStateHandlers, withProps } from 'recompose'
 import Todo from './Todo'
 import Axios from 'axios'
 
+let todo = ({todo}) => () => todo
+
 export default compose(
   withStateHandlers({
-    todoName: this.props.todo.name,
-    todoDone: this.props.todo.done,
+    todoName: todo.name,
+    todoDone: todo.done,
   },
   {
     toggleTodoDone: ({todo}) => (e) => {
-      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/todos/${this.props.todo.id}`, {
+      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/todos/${todo.id}`, {
         done: e.target.checked
       }, {withCredentials: true})
       .then(res => ({
@@ -17,7 +19,7 @@ export default compose(
       }))
     },
     changeTodoName: ({todoName}) => (e, newName) => {
-      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/todos/${this.props.todo.id}`, {
+      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/todos/${todo.id}`, {
         name: newName
       }, {withCredentials: true})
       .then(res => ({
@@ -26,6 +28,6 @@ export default compose(
     }
   }),
   withProps(() => () => ({
-    deleteTodo: Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/todos/${this.props.todo.id}`, {withCredentials: true})
+    deleteTodo: Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/todos/${todo.id}`, {withCredentials: true})
   }))
 )(Todo)

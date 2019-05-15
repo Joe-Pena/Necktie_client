@@ -7,7 +7,11 @@ const ProjectsList = ({ projects, fetchAllProjects}) => {
       {
         projects.map((project) => {
         return (
-          <Project project={project} fetchAllProjects={fetchAllProjects}/>
+          <Project 
+            project={project} 
+            fetchAllProjects={fetchAllProjects}
+            key={project.id}
+          />
         )
       }
       )}

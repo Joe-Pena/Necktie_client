@@ -2,14 +2,16 @@ import { compose, withStateHandlers, withProps } from 'recompose'
 import Project from './Project'
 import Axios from 'axios'
 
+let project = ({project}) => () => project
+
 export default compose(
   withStateHandlers({
-    projectDone: this.props.project.done,
-    projectName: this.props.project.name
+    projectDone: project.done,
+    projectName: project.name
   },
   {
     toggleProjectDone: ({ projectDone }) => (e) => {
-      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${this.props.project.id}`, {
+      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
         done: e.target.value
       }, {withCredentials: true})
       .then(() => ({
@@ -19,7 +21,7 @@ export default compose(
     editProject: ({ projectName }) => (e, newName) => {
       e.preventDefault()
 
-      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${this.props.project.id}`, {
+      Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
         name: newName
       }, {withCredentials: true})
       .then(res => ({
@@ -27,10 +29,10 @@ export default compose(
       }))
     }
   }),
-  withProps(() => () => ({
+  withProps(({fetchAllProjects}) => () => ({
     deleteProject: () => {
-      Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/projects/${this.props.project.id}`, {withCredentials: true})
-      .then(() => this.props.fetchAllProjects())
+      Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {withCredentials: true})
+      .then(() => fetchAllProjects())
     }
   }))
 )(Project)
