@@ -1,15 +1,18 @@
 import React from 'react'
 
-const ProjectSubmitForm = ({ projectFormSubmit, inputFieldValue}) => {
+const ProjectSubmitForm = ({ projectFormSubmit, setFieldValue, inputFieldValue}) => {
   return(
-  <form 
+  <form
   className="home-page_welcome_project-submit-form"
-  onSubmit={(e) => this.projectFormSubmit(e)}>
+  onSubmit={(e) => {
+    projectFormSubmit(e, inputFieldValue)
+    setFieldValue('')
+  }}>
     <input
       type="text" 
       placeholder="Project name"
-      onChange= {e => this.setState({projectField: e.target.value})}
-      value= {this.state.projectField}/>
+      onChange= {e => setFieldValue(e.target.value)}
+      value= {inputFieldValue}/>
     <button type="submit">Add Project</button>
   </form>
   )

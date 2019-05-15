@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
 import { RestrictedProjects } from '../../organisms';
+import { ProjectSubmitForm } from '../../molecules';
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,12 +18,14 @@ class Home extends React.Component {
       },
       projects: []
     }
+
+    this.projectFormSubmit = this.projectFormSubmit.bind(this)
   }
 
   componentDidMount() {
     this.fetchAllProjects()
   }
-
+  
   fetchAllProjects() {
     Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})
     .then(res => {
@@ -42,14 +45,13 @@ class Home extends React.Component {
   }
 
 
-  projectFormSubmit(e) {
+  projectFormSubmit(e, name) {
     e.preventDefault()
-
-    if(!this.state.projectField) {
+    if(!name) {
       return alert('Field cannot be left blank')
     }
     Axios.post(`${process.env.REACT_APP_API_URL}/api/v1/projects`, {
-      name: this.state.projectField,
+      name: name,
       done: false,
       todos: []
     }, {withCredentials: true})
@@ -153,20 +155,7 @@ class Home extends React.Component {
         <div className="home-page_welcome">
           <h1>Current Necktie Projects</h1>
           <h3>Welcome, {this.props.username}</h3>
-
-          {/* PROJECT SUBMIT FORM */}
-          <form 
-            className="home-page_welcome_project-submit-form"
-            onSubmit={(e) => this.projectFormSubmit(e)}
-          >
-            <input
-              type="text" 
-              placeholder="Project name"
-              onChange= {e => this.setState({projectField: e.target.value})}
-              value= {this.state.projectField}
-            />
-            <button type="submit">Add Project</button>
-          </form>
+          <ProjectSubmitForm projectFormSubmit={this.projectFormSubmit} />
         </div>
         {/* PROJECTLIST */}
         <div className="projects-list">
