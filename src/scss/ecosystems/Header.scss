@@ -53,3 +53,17 @@ $color-text: #dedede;
     }
   }
 }
+
+@media (max-width: 768px) {
+  .header {
+    &_logo {
+      width: 5rem;
+      margin: 0;
+      position: static;
+    }
+
+    &_links {
+      font-size: 1rem;
+    }
+  }
+}

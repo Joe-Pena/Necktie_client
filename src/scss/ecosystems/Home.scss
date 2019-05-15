@@ -220,3 +220,25 @@ $color-placeholder: #dedede88;
   }
 }
 
+@media (max-width: 768px) {
+  .home-page {
+    &_welcome {
+      font-size: 0.8rem;
+      margin-top: 25%;
+
+      &_project-submit-form {
+        height: 50px;
+      }
+    }
+  }
+
+  .projects-list {
+    &_entry {
+      max-width: 350px;
+
+      &--restricted {
+        width: auto;
+      }
+    }
+  }
+}
