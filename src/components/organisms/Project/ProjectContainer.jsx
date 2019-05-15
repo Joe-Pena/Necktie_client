@@ -2,8 +2,6 @@ import { compose, withStateHandlers, withProps } from 'recompose'
 import Project from './Project'
 import Axios from 'axios'
 
-let project = ({project}) => () => project
-
 export default compose(
   withStateHandlers({
     projectDone: project.done,
@@ -20,7 +18,6 @@ export default compose(
     },
     editProject: ({ projectName }) => (e, newName) => {
       e.preventDefault()
-
       Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
         name: newName
       }, {withCredentials: true})
