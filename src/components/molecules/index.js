@@ -1,9 +1,9 @@
 import ProjectSubmitForm from './ProjectSubmitForm/ProjectSubmitFormContainer'
-import EditProjectForm from './EditProjectForm/EditProjectFormContainer'
+import EditNameForm from './EditNameForm/EditNameFormContainer'
 import TodoSubmitForm from './TodoSubmitForm/TodoSubmitFormContainer'
 
 export {
   ProjectSubmitForm,
-  EditProjectForm,
+  EditNameForm,
   TodoSubmitForm
 }

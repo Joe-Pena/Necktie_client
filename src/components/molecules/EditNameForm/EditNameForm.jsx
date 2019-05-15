@@ -1,10 +1,10 @@
 import React from 'react'
 
-const EditProjectForm = ({ activeEditForm, editFormActivation, inputValue, changeInputValue, changeProjectName}) => {
+const EditProjectForm = ({ handlerFunction, className, activeEditForm, editFormActivation, inputValue, changeInputValue }) => {
 return (
   <form 
-  className="projects-list_entry_project_edit-form"
-  onSubmit={(e) => changeProjectName(e, inputValue)}
+  className={className}
+  onSubmit={(e) => handlerFunction(e, inputValue)}
   >
     {activeEditForm ?
       <React.Fragment> 

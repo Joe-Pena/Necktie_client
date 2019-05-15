@@ -1,6 +1,6 @@
 import React from 'react'
 import { DoneCheckbox, DeleteButton } from '../../atoms'
-import { EditProjectForm } from '../../molecules'
+import { EditNameForm } from '../../molecules'
 import { TodoSection } from '..'
 
 const Project = ({ fetchAllProjects, project, projectDone, toggleProjectDone, projectName, editProject, deleteProject }) => {
@@ -9,7 +9,7 @@ const Project = ({ fetchAllProjects, project, projectDone, toggleProjectDone, pr
       <div className="projects-list_entry_project">
         <h2 className="projects-list_entry_project_title">{projectName}</h2>
         <DoneCheckbox done={projectDone} handlerFunction={toggleProjectDone} />
-        <EditProjectForm changeProjectName={editProject} />
+        <EditNameForm className="projects-list_entry_project_edit-form" handlerFunction={editProject} />
         <DeleteButton className="projects-list_entry_project_delete-btn" handlerFunction={deleteProject} />
       </div>
       {/* TODO SUBMIT FORM */}
