@@ -4,7 +4,7 @@ const DeleteButton = ({className, handlerFunction}) => {
   return (
   <button 
     className={className}
-    onClick={() => handlerFunction()}
+    onClick={(e) => handlerFunction(e)}
   >
   Delete
   </button>

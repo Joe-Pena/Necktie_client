@@ -10,7 +10,7 @@ export default compose(
     fetchAllProjects: ({projects}) => () => {
       Axios.get(`${process.env.REACT_APP_API_URL}/api/v1/projects/`, {withCredentials: true})
       .then(res => {
-        this.setState({projects: res.data.data})
+        return({projects: res.data.data})
       })
       .catch(err => alert(err.message))
     }

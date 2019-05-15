@@ -4,14 +4,18 @@ const EditProjectForm = ({ handlerFunction, className, activeEditForm, editFormA
 return (
   <form 
   className={className}
-  onSubmit={(e) => handlerFunction(e, inputValue)}
+  onSubmit={(e) => {
+    handlerFunction(e, inputValue)
+    editFormActivation(e)
+    changeInputValue('')
+  }}
   >
     {activeEditForm ?
       <React.Fragment> 
         <input 
           type="text" 
           placeholder="New Name"
-          onChange={(e) => changeInputValue(e)} 
+          onChange={(e) => changeInputValue(e.target.value)} 
           value={inputValue}
         />
         <button type="submit">Edit Name</button>

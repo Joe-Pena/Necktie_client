@@ -3,33 +3,40 @@ import Project from './Project'
 import Axios from 'axios'
 
 export default compose(
-  withStateHandlers({
+  withStateHandlers(({ project }) => ({
+    project: project,
     projectDone: project.done,
     projectName: project.name
-  },
+  }),
   {
-    toggleProjectDone: ({ projectDone }) => (e) => {
+    toggleProjectDone: ({ project, projectDone }) => (e) => {
       Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
-        done: e.target.value
+        done: e.target.checked
       }, {withCredentials: true})
-      .then(() => ({
-        projectDone: e.target.value
-      }))
+      // .then((res) => {
+        return({projectDone: e.target.checked})
+      // })
     },
-    editProject: ({ projectName }) => (e, newName) => {
+    editProject: ({ project }) => (e, newName) => {
       e.preventDefault()
       Axios.put(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {
         name: newName
       }, {withCredentials: true})
-      .then(res => ({
-        projectName: res.data.data.name
-      }))
-    }
+      // .then(res => ({
+        return ({projectName: newName})
+      // }))
+    },
+    // deleteProject: ({ fetchAllProjects, project }) => () => {
+    //   Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {withCredentials: true})
+    //   .then(() => fetchAllProjects())
+    // }
   }),
-  withProps(({fetchAllProjects}) => () => ({
-    deleteProject: () => {
+  withProps(() => ({fetchAllProjects, project}) => ({
+    deleteProject: ({fetchAllProjects, project}) => (e) => {
+      e.preventDefault()
       Axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/projects/${project.id}`, {withCredentials: true})
       .then(() => fetchAllProjects())
-    }
+    },
+    project: project
   }))
 )(Project)

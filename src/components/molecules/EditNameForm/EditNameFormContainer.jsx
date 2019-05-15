@@ -13,8 +13,8 @@ export default compose(
         activeEditForm: !activeEditForm
       })
     },
-    changeInputValue: ({inputValue}) => (e) => ({
-      inputValue: e.target.value
+    changeInputValue: ({inputValue}) => (newName) => ({
+      inputValue: newName
     })
   })
 )(EditNameForm)
